@@ -1,8 +1,7 @@
 GITRECEIVE_URL ?= https://raw.github.com/progrium/gitreceive/master/gitreceive
 SSHCOMMAND_URL ?= https://raw.github.com/progrium/sshcommand/master/sshcommand
 PLUGINHOOK_URL ?= https://s3.amazonaws.com/progrium-pluginhook/pluginhook_0.1.0_amd64.deb
-STACK_URL ?= github.com/progrium/buildstep
-PREBUILT_STACK_URL ?= https://s3.amazonaws.com/progrium-dokku/progrium_buildstep_c30652f59a.tgz
+STACK_URL ?= github.com/81designs/buildstep
 
 all:
 	# Type "make install" to install.
@@ -48,11 +47,7 @@ aufs:
 	lsmod | grep aufs || modprobe aufs || apt-get install -y linux-image-extra-`uname -r`
 
 stack:
-ifdef BUILD_STACK
-	@docker images | grep progrium/buildstep || docker build -t progrium/buildstep ${STACK_URL}
-else
-	@docker images | grep progrium/buildstep || curl ${PREBUILT_STACK_URL} | gunzip -cd | docker import - progrium/buildstep
-endif
+	@docker images | grep 81designs/buildstep || curl ${PREBUILT_STACK_URL} | gunzip -cd | docker import - 81designs/buildstep
 
 count:
 	@echo "Core lines:"
