@@ -13,7 +13,7 @@ if [[ -f "$HOME/VHOST" ]]; then
   dots="${custom_hostname//[^.]}"
   dot_count="${#dots}"
   
-  if [[ dot_count == 1 ]]; then
+  if [[ $dot_count == 1 ]]; then
     custom_hostname=".${custom_hostname}"
   fi
 
