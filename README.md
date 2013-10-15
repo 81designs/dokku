@@ -11,7 +11,7 @@ best to use a fresh VM. The bootstrapper will install everything it needs.
 
 ## Installing
 
-    $ wget -qO- https://raw.github.com/progrium/dokku/master/bootstrap.sh | sudo bash
+    $ wget -qO- https://raw.github.com/81designs/dokku/master/bootstrap.sh | sudo bash
 
 This may take around 5 minutes. Certainly better than the several hours it takes to bootstrap Cloud Foundry.
 
@@ -22,19 +22,19 @@ Set up a domain and a wildcard domain pointing to that host. Make sure `/home/gi
 You'll have to add a public key associated with a username as it says at the end of the bootstrapper. You'll do something
 like this from your local machine:
 
-    $ cat ~/.ssh/id_rsa.pub | ssh progriumapp.com "sudo gitreceive upload-key progrium"
+    $ cat ~/.ssh/id_rsa.pub | ssh 81designs.com "sudo gitreceive upload-key dokku"
 
 That's it!
 
 ## Deploy an App
 
-Right now Buildstep supports buildpacks for Node.js, Ruby, Python, [and more](https://github.com/progrium/buildstep#supported-buildpacks). It's not hard to add more, [go add more](https://github.com/progrium/buildstep#adding-buildpacks)!
+Right now Buildstep supports buildpacks for Node.js, Ruby, Python, [and more](https://github.com/81designs/buildstep#supported-buildpacks). It's not hard to add more, [go add more](https://github.com/81designs/buildstep#adding-buildpacks)!
 Please check the documentation for your particular build pack as you may need to include configuration files (such as a Procfile) in your project root.
 Let's deploy the [Heroku Node.js sample app](https://github.com/heroku/node-js-sample). All you have to do is add a remote to name the app. It's created on-the-fly.
 
     $ cd node-js-sample
-    $ git remote add progrium git@progriumapp.com:node-js-app
-    $ git push progrium master
+    $ git remote add dokku git@81designs.com:node-js-app
+    $ git push dokku master
     Counting objects: 296, done.
     Delta compression using up to 4 threads.
     Compressing objects: 100% (254/254), done.
@@ -47,7 +47,7 @@ Let's deploy the [Heroku Node.js sample app](https://github.com/heroku/node-js-s
     ... blah blah blah ...
 
     -----> Application deployed:
-           http://node-js-app.progriumapp.com
+           http://node-js-app.81designs.com
 
 You're done!
 
@@ -116,7 +116,7 @@ apply). Example:
 The bootstrap script allows the dokku repository URL to be overridden to bootstrap a host from
 your own clone of dokku using the DOKKU_REPO environment variable. Example:
 
-    $ wget https://raw.github.com/progrium/dokku/master/bootstrap.sh
+    $ wget https://raw.github.com/81designs/dokku/master/bootstrap.sh
     $ chmod +x bootstrap.sh
     $ sudo DOKKU_REPO=https://github.com/yourusername/dokku.git ./bootstrap.sh
 
@@ -126,11 +126,11 @@ Dokku ships with a pre-built version of version of the [buildstep] component by
 default. If you want to build your own version you can specify that with an env
 variable.
 
-    $ git clone https://github.com/progrium/dokku.git
+    $ git clone https://github.com/81designs/dokku.git
     $ cd dokku
     $ sudo BUILD_STACK=true make all
 
-[buildstep]: https://github.com/progrium/buildstep
+[buildstep]: https://github.com/81designs/buildstep
 
 ## Upgrading
 
@@ -146,7 +146,7 @@ Nothing needs to be restarted. Changes will take effect on the next push / deplo
 
 To update the build step:
 
-    $ git clone https://github.com/progrium/buildstep.git
+    $ git clone https://github.com/81designs/buildstep.git
     $ cd buildstep
     $ git pull origin master
     $ sudo make build
