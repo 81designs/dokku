@@ -7,19 +7,15 @@ SSL="$HOME/$APP/ssl"
 if [[ -f "$HOME/VHOST" ]]; then
   VHOST=$(< "$HOME/VHOST")
   SUBDOMAIN=${APP/%\.${VHOST}/}
-  hostname="${APP/\//-}.$VHOST"
-  custom_hostname="${APP/\//-}"
-  
-  dots="${custom_hostname//[^.]}"
-  dot_count="${#dots}"
-  
-  if [[ dot_count == 1 ]]; then
-    custom_hostname=".${${custom_hostname}"
+  if [[ "$APP" == *.* ]] && [[ "$SUBDOMAIN" == "$APP" ]]; then
+    hostname="${APP/\//-}"
+  else
+    hostname="${APP/\//-}.$VHOST"
   fi
 
   if [[ -f "$SSL/server.crt" ]] && [[ -f "$SSL/server.key" ]]; then
     SSL_INUSE="$SSL"
-  elif  [[ -f "$WILDCARD_SSL/server.crt" ]] && [[ -f "$WILDCARD_SSL/server.key" ]] && [[ $custom_hostname = `openssl x509 -in $WILDCARD_SSL/server.crt -noout -subject | tr '/' '\n' | grep CN= | cut -c4-` ]]; then
+  elif  [[ -f "$WILDCARD_SSL/server.crt" ]] && [[ -f "$WILDCARD_SSL/server.key" ]] && [[ $hostname = `openssl x509 -in $WILDCARD_SSL/server.crt -noout -subject | tr '/' '\n' | grep CN= | cut -c4-` ]]; then
     SSL_INUSE="$WILDCARD_SSL"
   fi
 
@@ -29,13 +25,13 @@ if [[ -f "$HOME/VHOST" ]]; then
 upstream $APP { server 127.0.0.1:$PORT; }
 server {
   listen      80;
-  server_name $hostname $custom_hostname;
+  server_name $hostname;
   return 301 https://\$host\$request_uri;
 }
 
 server {
   listen      443;
-  server_name $hostname $custom_hostname;
+  server_name $hostname;
 
   ssl on;
   ssl_certificate     $SSL_INUSE/server.crt;
@@ -63,7 +59,7 @@ else
 upstream $APP { server 127.0.0.1:$PORT; }
 server {
   listen      80;
-  server_name $hostname $custom_hostname;
+  server_name $hostname;
   location    / {
     proxy_pass  http://$APP;
     proxy_http_version 1.1;
