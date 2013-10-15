@@ -14,7 +14,7 @@ if [[ -f "$HOME/VHOST" ]]; then
   dot_count="${#dots}"
   
   if [[ dot_count == 1 ]]; then
-    custom_hostname=".${${custom_hostname}"
+    custom_hostname=".${custom_hostname}"
   fi
 
   if [[ -f "$SSL/server.crt" ]] && [[ -f "$SSL/server.key" ]]; then
