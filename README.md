@@ -28,7 +28,7 @@ That's it!
 
 ## Deploy an App
 
-Right now Buildstep supports buildpacks for Node.js, Ruby, Python, [and more](https://github.com/81designs/buildstep#supported-buildpacks). It's not hard to add more, [go add more](https://github.com/81designs/buildstep#adding-buildpacks)!
+Right now Buildstep supports buildpacks for Node.js, Ruby, Python, [and more](https://github.com/progrium/buildstep#supported-buildpacks). It's not hard to add more, [go add more](https://github.com/progrium/buildstep#adding-buildpacks)!
 Please check the documentation for your particular build pack as you may need to include configuration files (such as a Procfile) in your project root.
 Let's deploy the [Heroku Node.js sample app](https://github.com/heroku/node-js-sample). All you have to do is add a remote to name the app. It's created on-the-fly.
 
@@ -130,7 +130,7 @@ variable.
     $ cd dokku
     $ sudo BUILD_STACK=true make all
 
-[buildstep]: https://github.com/81designs/buildstep
+[buildstep]: https://github.com/progrium/buildstep
 
 ## Upgrading
 
@@ -146,7 +146,7 @@ Nothing needs to be restarted. Changes will take effect on the next push / deplo
 
 To update the build step:
 
-    $ git clone https://github.com/81designs/buildstep.git
+    $ git clone https://github.com/progrium/buildstep.git
     $ cd buildstep
     $ git pull origin master
     $ sudo make build
