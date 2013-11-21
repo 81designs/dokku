@@ -1,12 +1,11 @@
-#!/usr/bin/env sh
-
-set -e
+#!/usr/bin/env bash
+set -eo pipefail
 export DEBIAN_FRONTEND=noninteractive
 export DOKKU_REPO=${DOKKU_REPO:-"https://github.com/81designs/dokku.git"}
 
 if ! which apt-get &>/dev/null
 then
-	echo "This installation script requres apt-get. For manual installation instructions, consult https://github.com/81designs/dokku ."
+	echo "This installation script requires apt-get. For manual installation instructions, consult https://github.com/81designs/dokku ."
 	exit 1
 fi
 
@@ -14,9 +13,19 @@ apt-get update
 apt-get install -y git make curl software-properties-common
 
 cd ~ && test -d dokku || git clone $DOKKU_REPO
-cd dokku && test $DOKKU_BRANCH && git checkout origin/$DOKKU_BRANCH || true
-make all
+cd dokku
+git fetch origin
+
+if [[ -n $DOKKU_BRANCH ]]; then
+  git checkout origin/$DOKKU_BRANCH
+elif [[ -n $DOKKU_TAG ]]; then
+  git checkout $DOKKU_TAG
+fi
+
+make install
 
 echo
 echo "Be sure to upload a public key for your user:"
 echo "  cat ~/.ssh/id_rsa.pub | ssh root@$HOSTNAME \"gitreceive upload-key dokku\""
+echo "Also see:"
+echo "  https://github.com/progrium/dokku#configuring"
